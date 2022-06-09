@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\ClientController;
 use App\Http\Controllers\CompanyController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -21,7 +22,22 @@ use Illuminate\Support\Facades\Route;
 
 // Company
 Route::controller(CompanyController::class)->prefix('companies')->group(function () {
+    // Listar todas as empresas
     Route::get('/', 'index');
-    Route::get('{id}', 'show');
-    // Route::get('{id}', 'show');
+
+    // Cadastrar uma empresa
+    Route::post('/', 'store');
+
+    Route::prefix('/{id}')->group(function () {
+        // Buscar uma empresa específica
+        Route::get('/', 'show');
+
+        Route::prefix('clients')->group(function () {
+            // Listar todos os clientes de uma empresa específica
+            Route::get('/', 'clients');
+
+            // Cadastrar um cliente em uma empresa específica
+            Route::post('/', [ClientController::class, 'store']);
+        });
+    });
 });
