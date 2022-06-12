@@ -38,6 +38,9 @@ Route::controller(CompanyController::class)->prefix('companies')->group(function
 
             // Cadastrar um cliente em uma empresa específica
             Route::post('/', [ClientController::class, 'store']);
+
+            // Buscar um cliente específico de uma empresa
+            Route::get('/{clientId}', [ClientController::class, 'show']);
         });
     });
 });

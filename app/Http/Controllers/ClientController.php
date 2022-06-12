@@ -22,4 +22,14 @@ class ClientController extends Controller
 
         return response()->json(['message' => 'Successfully created', 'data' => $client]);
     }
+
+    /**
+     * show.
+     */
+    public function show(int $companyId, int $id): JsonResponse
+    {
+        $client = Company::findOrFail($companyId)->clients()->findOrFail($id);
+
+        return response()->json($client);
+    }
 }
