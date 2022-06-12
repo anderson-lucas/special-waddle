@@ -2,6 +2,7 @@
 
 namespace App\Exceptions;
 
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
 use Symfony\Component\HttpFoundation\Response;
 use Throwable;
@@ -58,6 +59,7 @@ class Handler extends ExceptionHandler
     public function render($request, Throwable $e)
     {
         return match (true) {
+            $e instanceof ModelNotFoundException => response()->json(['message' => 'Record not found in database'], Response::HTTP_BAD_REQUEST),
             default => response()->json(['message' => $e->getMessage()], Response::HTTP_BAD_REQUEST),
         };
     }
