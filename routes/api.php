@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\ClientController;
 use App\Http\Controllers\CompanyController;
+use App\Http\Controllers\PointController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -32,15 +33,20 @@ Route::controller(CompanyController::class)->prefix('companies')->group(function
         // Buscar uma empresa específica
         Route::get('/', 'show');
 
-        Route::prefix('clients')->group(function () {
+        Route::controller(ClientController::class)->prefix('clients')->group(function () {
             // Listar todos os clientes de uma empresa específica
-            Route::get('/', 'clients');
+            Route::get('/', 'index');
 
             // Cadastrar um cliente em uma empresa específica
-            Route::post('/', [ClientController::class, 'store']);
+            Route::post('/', 'store');
 
-            // Buscar um cliente específico de uma empresa
-            Route::get('/{clientId}', [ClientController::class, 'show']);
+            Route::prefix('/{clientId}')->group(function () {
+                // Buscar um cliente específico de uma empresa
+                Route::get('/', 'show');
+
+                // Lançar pontos para um cliente em uma empresa
+                Route::post('points', [PointController::class, 'store']);
+            });
         });
     });
 });

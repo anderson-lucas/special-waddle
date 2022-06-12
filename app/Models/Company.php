@@ -29,6 +29,6 @@ class Company extends Model
      */
     public function clients(): BelongsToMany
     {
-        return $this->belongsToMany(Client::class, 'card', 'company_id', 'client_id');
+        return $this->belongsToMany(Client::class, 'card', 'company_id', 'client_id')->withPivot('id');
     }
 }

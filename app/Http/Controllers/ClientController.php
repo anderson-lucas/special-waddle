@@ -32,4 +32,14 @@ class ClientController extends Controller
 
         return response()->json($client);
     }
+
+    /**
+     * index.
+     */
+    public function index(int $companyId): JsonResponse
+    {
+        $clients = Company::findOrFail($companyId)->clients()->get();
+
+        return response()->json($clients);
+    }
 }

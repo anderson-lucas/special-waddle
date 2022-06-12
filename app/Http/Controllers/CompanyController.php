@@ -37,11 +37,4 @@ class CompanyController extends Controller
 
         return response()->json(['message' => 'Successfully created', 'data' => $company]);
     }
-
-    public function clients(int $id): JsonResponse
-    {
-        $clients = Company::findOrFail($id)->clients()->get();
-
-        return response()->json($clients);
-    }
 }
