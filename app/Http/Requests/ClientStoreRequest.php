@@ -15,7 +15,7 @@ class ClientStoreRequest extends FormRequest
     {
         return [
             'fullname' => 'required|string|min:3|max:200',
-            'email' => 'nullable|email|max:200',
+            'email' => 'required|email|max:200',
             'cellphone' => 'nullable|string|size:14|unique:client',
         ];
     }
