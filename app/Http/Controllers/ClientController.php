@@ -12,15 +12,13 @@ use Illuminate\Http\JsonResponse;
 class ClientController extends Controller
 {
     /**
-     * store.
+     * index.
      */
-    public function store(int $companyId, ClientStoreRequest $request): JsonResponse
+    public function index(int $companyId): JsonResponse
     {
-        $company = Company::findOrFail($companyId);
-        $client = Client::create($request->validated());
-        Card::create(['company_id' => $companyId, 'client_id' => $client->id, 'created_at' => Carbon::now()]);
+        $clients = Company::findOrFail($companyId)->clients()->get();
 
-        return response()->json(['message' => 'Successfully created', 'data' => $client]);
+        return response()->json($clients);
     }
 
     /**
@@ -34,12 +32,14 @@ class ClientController extends Controller
     }
 
     /**
-     * index.
+     * store.
      */
-    public function index(int $companyId): JsonResponse
+    public function store(int $companyId, ClientStoreRequest $request): JsonResponse
     {
-        $clients = Company::findOrFail($companyId)->clients()->get();
+        $company = Company::findOrFail($companyId);
+        $client = Client::create($request->validated());
+        Card::create(['company_id' => $companyId, 'client_id' => $client->id, 'created_at' => Carbon::now()]);
 
-        return response()->json($clients);
+        return response()->json(['message' => 'Successfully created', 'data' => $client]);
     }
 }
